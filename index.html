@@ -12,23 +12,24 @@
 body{
   margin:0;
   font-family:Arial, sans-serif;
+  color:#10172a;
   background:
-    radial-gradient(circle at 10% 20%, rgba(255,120,190,.25), transparent 25%),
-    radial-gradient(circle at 85% 15%, rgba(90,150,255,.22), transparent 28%),
-    radial-gradient(circle at 80% 80%, rgba(80,220,170,.22), transparent 30%),
-    linear-gradient(135deg,#ffe6f6,#f4ddff,#dff6ff,#e4ffe9);
-  color:#102033;
+    radial-gradient(circle at 8% 20%, rgba(255,92,180,.28), transparent 24%),
+    radial-gradient(circle at 85% 18%, rgba(95,170,255,.25), transparent 25%),
+    radial-gradient(circle at 80% 75%, rgba(77,230,185,.22), transparent 30%),
+    linear-gradient(135deg,#ffe2f4,#f0ddff,#dff6ff,#e4ffe9);
   overflow-x:hidden;
 }
 
 header{
+  height:88px;
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  padding:16px 7%;
-  background:rgba(255,255,255,.92);
-  backdrop-filter:blur(10px);
-  box-shadow:0 4px 18px rgba(0,0,0,.10);
+  justify-content:space-between;
+  padding:0 6%;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(12px);
+  box-shadow:0 8px 24px rgba(60,60,160,.12);
   position:sticky;
   top:0;
   z-index:20;
@@ -37,57 +38,62 @@ header{
 .logo{
   display:flex;
   align-items:center;
-  gap:12px;
-  font-size:22px;
+  gap:14px;
+  font-size:32px;
   font-weight:900;
   color:#2634c8;
 }
 
 .logo img{
-  width:55px;
-  height:55px;
+  width:64px;
+  height:64px;
   border-radius:50%;
+  box-shadow:0 5px 15px rgba(0,0,0,.12);
 }
 
 nav a{
   text-decoration:none;
-  margin-left:22px;
-  font-weight:800;
-  color:#102033;
-}
-
-.hero{
-  min-height:82vh;
-  display:grid;
-  grid-template-columns:1fr 1.4fr;
-  align-items:center;
-  gap:45px;
-  padding:70px 8%;
-}
-
-.avatar-zone{
-  text-align:center;
-  position:relative;
-}
-
-.shape{
-  position:absolute;
-  font-size:60px;
-  opacity:.12;
+  color:#10172a;
+  margin-left:28px;
+  font-size:18px;
   font-weight:900;
 }
 
-.s1{top:0;left:10%}
-.s2{top:25%;right:5%}
-.s3{bottom:10%;left:5%}
+nav a:hover{color:#8b2cff}
+
+.hero{
+  position:relative;
+  display:grid;
+  grid-template-columns:.9fr 1.7fr;
+  gap:45px;
+  align-items:center;
+  padding:55px 6% 30px;
+}
+
+.math-shape{
+  position:absolute;
+  opacity:.16;
+  font-size:60px;
+  font-weight:900;
+  color:#8b2cff;
+}
+
+.triangle{left:5%;top:18%}
+.cross{left:23%;top:14%}
+.pi{left:3%;bottom:15%}
+.divide{right:5%;top:38%;color:#00b7c7}
+
+.avatar-zone{
+  text-align:center;
+}
 
 .avatar-zone img{
-  width:300px;
-  max-width:85%;
+  width:330px;
+  max-width:90%;
   border-radius:50%;
   padding:12px;
   background:white;
-  box-shadow:0 25px 50px rgba(60,70,180,.22);
+  box-shadow:0 25px 50px rgba(90,80,200,.25);
   animation:float 4s ease-in-out infinite;
 }
 
@@ -97,36 +103,61 @@ nav a{
 }
 
 .welcome{
-  background:rgba(255,255,255,.93);
+  background:rgba(255,255,255,.95);
   border-radius:34px;
-  padding:42px;
-  box-shadow:
-    0 25px 55px rgba(66,70,180,.14),
-    0 8px 20px rgba(0,0,0,.08);
+  padding:38px 44px;
+  box-shadow:0 24px 55px rgba(60,70,160,.15);
+  display:grid;
+  grid-template-columns:1.45fr .65fr;
+  gap:32px;
+  align-items:center;
 }
 
 .welcome h1{
-  font-size:50px;
-  margin:0 0 18px;
+  grid-column:1 / 3;
+  margin:0 0 10px;
   color:#2634c8;
+  font-size:46px;
   line-height:1.05;
+  white-space:nowrap;
 }
 
-.welcome p{
-  font-size:20px;
-  line-height:1.55;
+.welcome-text p{
+  font-size:19px;
+  line-height:1.5;
+}
+
+.goal{
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  margin-top:15px;
+}
+
+.heart{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#ff5ca8,#ff8bbf);
+  color:white;
+  font-size:25px;
+  flex-shrink:0;
 }
 
 .btn{
   display:inline-block;
-  margin-top:20px;
-  padding:17px 30px;
+  margin-top:18px;
+  padding:16px 42px;
   border-radius:999px;
   color:white;
   text-decoration:none;
+  font-size:20px;
   font-weight:900;
-  background:linear-gradient(135deg,#ff4fa3,#6c63ff);
-  box-shadow:0 12px 25px rgba(100,80,220,.28);
+  background:linear-gradient(135deg,#ff4fa3,#7b4dff,#3058ff);
+  box-shadow:0 14px 30px rgba(100,70,220,.32);
   transition:.25s;
 }
 
@@ -134,68 +165,140 @@ nav a{
   transform:translateY(-4px) scale(1.03);
 }
 
-.levels{
-  padding:45px 8% 90px;
+.free-card{
+  border-left:2px dashed rgba(38,52,200,.18);
+  padding-left:28px;
+}
+
+.free-box{
+  background:linear-gradient(180deg,#ffffff,#f7f1ff);
+  border:1px solid rgba(120,90,255,.18);
+  border-radius:26px;
+  padding:26px 20px;
   text-align:center;
+  box-shadow:0 15px 35px rgba(90,80,200,.12);
+}
+
+.gift{
+  font-size:44px;
+  display:block;
+  margin-bottom:8px;
+}
+
+.free-box h3{
+  margin:8px 0;
+  font-size:25px;
+  color:#10175c;
+}
+
+.free-box strong{
+  color:#8b2cff;
+  font-size:30px;
+}
+
+.free-box p{
+  font-size:16px;
+  line-height:1.45;
+}
+
+.levels{
+  text-align:center;
+  padding:25px 6% 45px;
 }
 
 .levels h2{
+  font-size:42px;
   color:#2634c8;
-  font-size:44px;
-  font-style:italic;
-  margin-bottom:35px;
+  margin:10px 0 30px;
 }
 
 .cards{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:28px;
+  gap:24px;
 }
 
 .level-card{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
   min-height:230px;
-  border-radius:32px;
-  text-decoration:none;
+  border-radius:28px;
+  padding:24px;
   color:white;
+  text-decoration:none;
   box-shadow:0 20px 40px rgba(0,0,0,.18);
   transition:.3s;
-  padding:25px;
+  position:relative;
+  overflow:hidden;
 }
 
 .level-card:hover{
-  transform:translateY(-12px) scale(1.04);
-  box-shadow:0 28px 55px rgba(0,0,0,.24);
+  transform:translateY(-12px) scale(1.03);
+  box-shadow:0 28px 55px rgba(0,0,0,.25);
 }
 
-.level-card .emoji{
-  font-size:48px;
-  margin-bottom:12px;
+.level-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at 80% 10%,rgba(255,255,255,.35),transparent 20%);
+}
+
+.icon{
+  display:block;
+  font-size:58px;
+  margin-bottom:8px;
+  position:relative;
+  z-index:1;
 }
 
 .level-card strong{
-  font-size:58px;
+  display:block;
+  font-size:72px;
+  position:relative;
+  z-index:1;
 }
 
 .level-card small{
+  display:block;
   font-size:18px;
-  font-weight:800;
-  margin-top:8px;
+  font-weight:900;
+  margin:8px 0 18px;
+  position:relative;
+  z-index:1;
 }
 
-.six{background:linear-gradient(135deg,#c4a4ff,#865dff)}
-.five{background:linear-gradient(135deg,#91d4ff,#2294ff)}
-.four{background:linear-gradient(135deg,#5ee7df,#00b7b0)}
-.three{background:linear-gradient(135deg,#20917f,#07534b)}
+.enter{
+  display:inline-block;
+  background:white;
+  color:#2634c8;
+  padding:12px 34px;
+  border-radius:999px;
+  font-size:20px;
+  font-weight:900;
+  position:relative;
+  z-index:1;
+}
+
+.six{background:linear-gradient(135deg,#d955ff,#7a42ff)}
+.five{background:linear-gradient(135deg,#25c7ff,#2865ff)}
+.four{background:linear-gradient(135deg,#18dbc8,#00a99d)}
+.three{background:linear-gradient(135deg,#4be66c,#12b83f)}
 
 footer{
-  text-align:center;
-  background:white;
-  padding:25px;
-  font-weight:800;
+  display:flex;
+  justify-content:center;
+  gap:25px;
+  flex-wrap:wrap;
+  padding:22px;
+  background:rgba(255,255,255,.9);
+  font-weight:700;
+  color:#475569;
+}
+
+@media(max-width:1100px){
+  .welcome h1{white-space:normal;font-size:40px}
+  .welcome{grid-template-columns:1fr}
+  .welcome h1{grid-column:1}
+  .free-card{border-left:none;padding-left:0}
 }
 
 @media(max-width:850px){
@@ -203,16 +306,26 @@ footer{
   .hero{
     grid-template-columns:1fr;
     text-align:center;
-    padding:45px 6%;
+    padding:35px 5%;
   }
-  .welcome h1{font-size:36px}
-  .welcome p{font-size:18px}
-  .cards{grid-template-columns:1fr 1fr}
+  .welcome{
+    padding:28px;
+  }
+  .cards{
+    grid-template-columns:1fr 1fr;
+  }
+  .logo{
+    font-size:24px;
+  }
 }
 
 @media(max-width:520px){
+  header{height:76px}
+  .logo img{width:52px;height:52px}
+  .logo{font-size:20px}
   .cards{grid-template-columns:1fr}
-  .welcome{padding:28px}
+  .welcome h1{font-size:34px}
+  .avatar-zone img{width:260px}
 }
 </style>
 </head>
@@ -222,30 +335,52 @@ footer{
 <header>
   <div class="logo">
     <img src="avatar-cecile.png" alt="Avatar de Cécile">
-    <span>Maths avec Cécile</span>
+    <span>Maths avec Cécile ✨</span>
   </div>
   <nav>
     <a href="#">Accueil</a>
     <a href="#niveaux">Niveaux</a>
     <a href="#">Capsules</a>
+    <a href="#">À propos</a>
   </nav>
 </header>
 
+<main>
+
 <section class="hero">
+  <div class="math-shape triangle">△</div>
+  <div class="math-shape cross">×</div>
+  <div class="math-shape pi">π</div>
+  <div class="math-shape divide">÷</div>
+
   <div class="avatar-zone">
-    <div class="shape s1">△</div>
-    <div class="shape s2">×</div>
-    <div class="shape s3">π</div>
     <img src="avatar-cecile.png" alt="Cécile">
   </div>
 
   <div class="welcome">
     <h1>Bienvenue sur Maths avec Cécile ✨</h1>
-    <p><strong>Bonjour !</strong></p>
-    <p>Je suis <strong>Cécile</strong>, professeure de mathématiques.</p>
-    <p>Sur ce site, je t'accompagnerai pas à pas dans ton apprentissage. Chaque capsule a été conçue pour t'aider à comprendre les notions progressivement, sans stress et à ton rythme.</p>
-    <p>L'objectif n'est pas d'aller vite, mais de comprendre et de prendre confiance en toi.</p>
-    <a class="btn" href="#niveaux">Commencer l'aventure 🚀</a>
+
+    <div class="welcome-text">
+      <p><strong>Bonjour !</strong></p>
+      <p>Je suis <strong style="color:#8b2cff">Cécile</strong>, professeure de mathématiques.</p>
+      <p>Sur ce site, je t'accompagnerai pas à pas dans ton apprentissage. Chaque capsule a été conçue pour t'aider à comprendre les notions progressivement, sans stress et à ton rythme.</p>
+
+      <div class="goal">
+        <div class="heart">♥</div>
+        <p><strong>L'objectif n'est pas d'aller vite,</strong> mais de comprendre et de prendre confiance en toi.</p>
+      </div>
+
+      <a class="btn" href="#niveaux">Commencer l'aventure 🚀</a>
+    </div>
+
+    <div class="free-card">
+      <div class="free-box">
+        <span class="gift">🎁</span>
+        <h3>Tout est<br><strong>100% gratuit !</strong></h3>
+        <p>Aucun abonnement,<br>aucun frais,<br>juste l'envie d'apprendre<br>et de progresser !</p>
+        <div style="font-size:26px;color:#8b2cff">💜</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -254,33 +389,41 @@ footer{
 
   <div class="cards">
     <a class="level-card six" href="#">
-      <span class="emoji">🚀</span>
+      <span class="icon">🚀</span>
       <strong>6e</strong>
       <small>Je découvre le collège</small>
+      <span class="enter">Entrer →</span>
     </a>
 
     <a class="level-card five" href="#">
-      <span class="emoji">💡</span>
+      <span class="icon">💡</span>
       <strong>5e</strong>
       <small>Je consolide mes bases</small>
+      <span class="enter">Entrer →</span>
     </a>
 
     <a class="level-card four" href="#">
-      <span class="emoji">⚡</span>
+      <span class="icon">⚡</span>
       <strong>4e</strong>
       <small>Je relève les défis</small>
+      <span class="enter">Entrer →</span>
     </a>
 
     <a class="level-card three" href="#">
-      <span class="emoji">🏆</span>
+      <span class="icon">🏆</span>
       <strong>3e</strong>
       <small>Objectif brevet</small>
+      <span class="enter">Entrer →</span>
     </a>
   </div>
 </section>
 
+</main>
+
 <footer>
-  © Maths avec Cécile
+  <span>© Maths avec Cécile</span>
+  <span>💜 Apprendre avec plaisir, progresser avec confiance !</span>
+  <span>🎁 100% gratuit</span>
 </footer>
 
 </body>
