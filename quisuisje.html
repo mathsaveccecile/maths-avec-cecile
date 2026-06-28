@@ -6,6 +6,7 @@
 <title>Qui suis-je ?</title>
 
 <style>
+*{box-sizing:border-box}
 
 body{
     margin:0;
@@ -16,45 +17,6 @@ body{
         linear-gradient(135deg,#fef2f4,#f0fdff,#dff6ff,#e4ffe9);
     color:#10172a;
 }
-
-.container{
-    max-width:900px;
-    margin:60px auto;
-    background:white;
-    padding:45px;
-    border-radius:30px;
-    box-shadow:0 20px 40px rgba(0,0,0,.12);
-}
-
-h1{
-    color:#2537c8;
-    text-align:center;
-    font-size:48px;
-    margin-bottom:40px;
-}
-
-p{
-    font-size:20px;
-    line-height:1.9;
-    text-align:justify;
-}
-
-.retour{
-    display:inline-block;
-    margin-top:40px;
-    padding:16px 34px;
-    border-radius:50px;
-    text-decoration:none;
-    color:white;
-    font-weight:bold;
-    background:linear-gradient(90deg,#e94098,#4257ff);
-}
-
-.retour:hover{
-    opacity:.9;
-}
-
-@media(max-width:600px){
 
 header{
   height:88px;
@@ -91,26 +53,87 @@ nav a{
   font-size:18px;
   font-weight:900;
 }
+
 .container{
-    margin:20px;
-    padding:25px;
+    max-width:900px;
+    margin:60px auto;
+    background:white;
+    padding:45px;
+    border-radius:30px;
+    box-shadow:0 20px 40px rgba(0,0,0,.12);
 }
 
 h1{
-    font-size:34px;
+    color:#2537c8;
+    text-align:center;
+    font-size:48px;
+    margin-bottom:40px;
 }
 
 p{
+    font-size:20px;
+    line-height:1.9;
+    text-align:justify;
+}
+
+.retour{
+    display:inline-block;
+    margin-top:40px;
+    padding:16px 34px;
+    border-radius:50px;
+    text-decoration:none;
+    color:white;
+    font-weight:bold;
+    background:linear-gradient(90deg,#e94098,#4257ff);
+}
+
+@media(max-width:600px){
+  header{
+    flex-direction:column;
+    height:auto;
+    padding:14px 16px;
+  }
+
+  .logo{
+    font-size:22px;
+  }
+
+  .logo img{
+    width:52px;
+    height:52px;
+  }
+
+  nav{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+    margin-top:12px;
+  }
+
+  nav a{
+    margin-left:0;
+    font-size:16px;
+  }
+
+  .container{
+    margin:20px;
+    padding:25px;
+  }
+
+  h1{
+    font-size:34px;
+  }
+
+  p{
     font-size:18px;
+  }
 }
-
-}
-
 </style>
-
 </head>
 
 <body>
+
 <header>
   <div class="logo">
     <img src="avatar-cecile.png" alt="Avatar de Cécile">
@@ -126,43 +149,25 @@ p{
 </header>
 
 <div class="container">
-
 <h1>Qui suis-je ?</h1>
 
-<p>
-Je suis <strong>Cécile</strong>, professeure de mathématiques passionnée, avec plus de <strong>26 ans d'expérience</strong>.
-</p>
+<p>Je suis <strong>Cécile</strong>, professeure de mathématiques passionnée, avec plus de <strong>26 ans d'expérience</strong>.</p>
 
-<p>
-Mon parcours professionnel m'a conduite, après plusieurs années dans le domaine de la vente, à enseigner dans <strong>11 établissements différents</strong>, dont <strong>10 en éducation prioritaire</strong>, au sein des académies de Versailles et de Reims.
-</p>
+<p>Mon parcours professionnel m'a conduite, après plusieurs années dans le domaine de la vente, à enseigner dans <strong>11 établissements différents</strong>, dont <strong>10 en éducation prioritaire</strong>, au sein des académies de Versailles et de Reims.</p>
 
-<p>
-J'ai eu la chance d'accompagner des élèves aux profils très variés, de la <strong>6e jusqu'à la Terminale S</strong>, en passant par les <strong>BAC PRO</strong> et les <strong>BEP</strong>.
-</p>
+<p>J'ai eu la chance d'accompagner des élèves aux profils très variés, de la <strong>6e jusqu'à la Terminale S</strong>, en passant par les <strong>BAC PRO</strong> et les <strong>BEP</strong>.</p>
 
-<p>
-Au fil des années, j'ai exercé sous différents statuts : vacataire, maître auxiliaire, contractuelle, avant d'obtenir le <strong>CAPES interne de mathématiques en 2003</strong>.
-</p>
+<p>Au fil des années, j'ai exercé sous différents statuts : vacataire, maître auxiliaire, contractuelle, avant d'obtenir le <strong>CAPES interne de mathématiques en 2003</strong>.</p>
 
-<p>
-Cette diversité d'expériences a enrichi ma pratique pédagogique et m'a permis de toujours chercher les méthodes les plus adaptées aux besoins de chaque élève.
-</p>
+<p>Cette diversité d'expériences a enrichi ma pratique pédagogique et m'a permis de toujours chercher les méthodes les plus adaptées aux besoins de chaque élève.</p>
 
-<p>
-En parallèle de mon enseignement, j'ai également été <strong>correctrice au concours de Professeur des écoles</strong> ainsi que <strong>formatrice de fonctionnaires stagiaires</strong>, notamment sur l'enseignement des mathématiques auprès des élèves malentendants.
-</p>
+<p>En parallèle de mon enseignement, j'ai également été <strong>correctrice au concours de Professeur des écoles</strong> ainsi que <strong>formatrice de fonctionnaires stagiaires</strong>, notamment sur l'enseignement des mathématiques auprès des élèves malentendants.</p>
 
-<p>
-Aujourd'hui, ma plus grande satisfaction est de voir les élèves reprendre confiance en eux, progresser et découvrir qu'ils sont capables de réussir en mathématiques.
-</p>
+<p>Aujourd'hui, ma plus grande satisfaction est de voir les élèves reprendre confiance en eux, progresser et découvrir qu'ils sont capables de réussir en mathématiques.</p>
 
-<p>
-Les retours positifs des élèves et de leurs familles sont ma seule motivation.
-</p>
+<p>Les retours positifs des élèves et de leurs familles sont ma seule motivation.</p>
 
 <a class="retour" href="index.html">← Retour à l'accueil</a>
-
 </div>
 
 </body>
