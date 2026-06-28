@@ -1,1 +1,430 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pythagore - Maths avec Cécile</title>
 
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+
+body{
+  background:#120d22;
+  color:white;
+}
+
+header{
+  height:76px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  background:#1d1730;
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+.logo{
+  font-size:24px;
+  font-weight:900;
+}
+
+.menu-btn{
+  display:none;
+  font-size:30px;
+  background:none;
+  border:none;
+  color:white;
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:330px 1fr;
+  min-height:calc(100vh - 76px);
+}
+
+.sidebar{
+  background:#191426;
+  padding:24px;
+  overflow-y:auto;
+  border-right:1px solid rgba(255,255,255,.08);
+}
+
+.sidebar h2{
+  font-size:30px;
+  margin-bottom:15px;
+}
+
+.badges{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:24px;
+}
+
+.badge{
+  background:rgba(255,255,255,.16);
+  padding:8px 12px;
+  border-radius:999px;
+  font-weight:700;
+}
+
+.progress-box{
+  margin-bottom:24px;
+}
+
+.progress-bar{
+  height:12px;
+  background:rgba(255,255,255,.14);
+  border-radius:99px;
+  overflow:hidden;
+  margin-top:8px;
+}
+
+.progress-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#ff4fa3,#4163ff);
+}
+
+.step{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:16px;
+  margin-bottom:10px;
+  border-radius:16px;
+  background:rgba(255,255,255,.08);
+  cursor:pointer;
+}
+
+.step.active{
+  background:#3d7cff;
+}
+
+.step.done{
+  background:rgba(50,220,120,.22);
+}
+
+.step-number{
+  width:28px;
+  font-weight:900;
+  color:#ffe05c;
+}
+
+.main{
+  padding:40px;
+}
+
+.content-card{
+  max-width:950px;
+  margin:auto;
+  background:#241e35;
+  border-radius:28px;
+  padding:34px;
+  box-shadow:0 20px 40px rgba(0,0,0,.3);
+}
+
+.content-card h1{
+  font-size:38px;
+  margin-bottom:20px;
+}
+
+.content-box{
+  background:#302943;
+  border-radius:22px;
+  padding:28px;
+  min-height:340px;
+}
+
+.video-placeholder,
+.image-placeholder,
+.fiche-placeholder,
+.quiz-box{
+  min-height:280px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  border:2px dashed rgba(255,255,255,.25);
+  border-radius:20px;
+  font-size:24px;
+  line-height:1.5;
+}
+
+.quiz-options{
+  display:grid;
+  gap:12px;
+  margin-top:20px;
+}
+
+.quiz-options button{
+  padding:15px;
+  border-radius:14px;
+  border:none;
+  font-size:18px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.nav-buttons{
+  display:flex;
+  justify-content:space-between;
+  margin-top:26px;
+}
+
+.nav-buttons button{
+  padding:15px 28px;
+  border:none;
+  border-radius:999px;
+  font-size:18px;
+  font-weight:900;
+  color:white;
+  background:linear-gradient(135deg,#ff4fa3,#3058ff);
+  cursor:pointer;
+}
+
+.nav-buttons button:disabled{
+  opacity:.4;
+  cursor:not-allowed;
+}
+
+.retour{
+  display:inline-block;
+  margin-bottom:24px;
+  color:white;
+  text-decoration:none;
+  font-weight:700;
+}
+
+@media(max-width:800px){
+  .menu-btn{display:block}
+
+  .layout{
+    display:block;
+  }
+
+  .sidebar{
+    position:fixed;
+    top:76px;
+    right:-100%;
+    width:88%;
+    height:calc(100vh - 76px);
+    z-index:20;
+    transition:.3s;
+  }
+
+  .sidebar.open{
+    right:0;
+  }
+
+  .main{
+    padding:20px;
+  }
+
+  .content-card{
+    padding:22px;
+  }
+
+  .content-card h1{
+    font-size:28px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">Pythagore · 4e / 3e</div>
+  <button class="menu-btn" onclick="toggleMenu()">☰</button>
+</header>
+
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+  <h2>Pythagore</h2>
+
+  <div class="badges">
+    <span class="badge">⏱️ 18 min</span>
+    <span class="badge">🎥 18 vidéos</span>
+    <span class="badge">❓ 12 quiz</span>
+    <span class="badge">📄 6 fiches</span>
+  </div>
+
+  <div class="progress-box">
+    <strong>Progression : <span id="progressText">0 %</span></strong>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <div id="stepsList"></div>
+</aside>
+
+<main class="main">
+  <a class="retour" href="4e.html">← Retour au niveau</a>
+
+  <div class="content-card">
+    <h1 id="stepTitle"></h1>
+
+    <div class="content-box" id="contentBox"></div>
+
+    <div class="nav-buttons">
+      <button onclick="prevStep()" id="prevBtn">← Précédent</button>
+      <button onclick="nextStep()" id="nextBtn">Suivant →</button>
+    </div>
+  </div>
+</main>
+
+</div>
+
+<script>
+const steps = [
+  {type:"video", title:"0. Introduction", content:"Emplacement de ta vidéo d'introduction"},
+  {type:"fiche", title:"Fiche", content:"Emplacement de ta première fiche"},
+  {type:"fiche", title:"Fiche", content:"Emplacement de ta deuxième fiche"},
+  {type:"video", title:"1. Observer avant de calculer", content:"Emplacement vidéo"},
+  {type:"video", title:"2. Mettre des mots sur ce qu’on observe", content:"Emplacement vidéo"},
+  {
+    type:"quiz",
+    title:"QCM",
+    question:"Peut-on utiliser le théorème de Pythagore dans n'importe quel triangle ?",
+    options:["Oui, toujours","Non, seulement dans un triangle rectangle","Seulement dans un triangle isocèle"],
+    answer:1
+  },
+  {type:"video", title:"3. Démonstration visuelle", content:"Emplacement vidéo"},
+  {type:"video", title:"4. L’énoncé du théorème de Pythagore", content:"Emplacement vidéo"},
+  {
+    type:"quiz",
+    title:"Quiz",
+    question:"Dans un triangle rectangle, le plus grand côté s'appelle...",
+    options:["l'hypoténuse","la hauteur","la médiane"],
+    answer:0
+  }
+];
+
+let current = 0;
+let completed = JSON.parse(localStorage.getItem("pythagoreProgress") || "[]");
+
+function saveProgress(){
+  if(!completed.includes(current)){
+    completed.push(current);
+    localStorage.setItem("pythagoreProgress", JSON.stringify(completed));
+  }
+}
+
+function renderSteps(){
+  const list = document.getElementById("stepsList");
+  list.innerHTML = "";
+
+  steps.forEach((step,index)=>{
+    const div = document.createElement("div");
+    div.className = "step";
+    if(index === current) div.classList.add("active");
+    if(completed.includes(index)) div.classList.add("done");
+
+    const icon = step.type === "video" ? "🎥" : step.type === "quiz" ? "❓" : step.type === "fiche" ? "📄" : "🖼️";
+
+    div.innerHTML = `
+      <span class="step-number">${index+1}</span>
+      <span>${step.title}</span>
+      <span style="margin-left:auto">${icon}</span>
+    `;
+
+    div.onclick = () => {
+      current = index;
+      render();
+      if(window.innerWidth <= 800) toggleMenu();
+    };
+
+    list.appendChild(div);
+  });
+}
+
+function renderContent(){
+  const step = steps[current];
+  document.getElementById("stepTitle").textContent = step.title;
+  const box = document.getElementById("contentBox");
+
+  if(step.type === "video"){
+    box.innerHTML = `<div class="video-placeholder">🎥<br>${step.content}</div>`;
+  }
+
+  if(step.type === "fiche"){
+    box.innerHTML = `<div class="fiche-placeholder">📄<br>${step.content}</div>`;
+  }
+
+  if(step.type === "image"){
+    box.innerHTML = `<div class="image-placeholder">🖼️<br>${step.content}</div>`;
+  }
+
+  if(step.type === "quiz"){
+    box.innerHTML = `
+      <div class="quiz-box" style="display:block;text-align:left">
+        <h2>${step.question}</h2>
+        <div class="quiz-options">
+          ${step.options.map((opt,i)=>`<button onclick="checkAnswer(${i})">${opt}</button>`).join("")}
+        </div>
+        <p id="feedback" style="margin-top:20px;font-size:20px;font-weight:900"></p>
+      </div>
+    `;
+  }
+}
+
+function checkAnswer(i){
+  const step = steps[current];
+  const feedback = document.getElementById("feedback");
+
+  if(i === step.answer){
+    feedback.textContent = "✅ Bravo, c'est la bonne réponse !";
+    feedback.style.color = "#65ff9a";
+    saveProgress();
+    updateProgress();
+    renderSteps();
+  } else {
+    feedback.textContent = "❌ Pas encore. Relis bien la question.";
+    feedback.style.color = "#ff6b8a";
+  }
+}
+
+function updateProgress(){
+  const percent = Math.round((completed.length / steps.length) * 100);
+  document.getElementById("progressText").textContent = percent + " %";
+  document.getElementById("progressFill").style.width = percent + "%";
+}
+
+function render(){
+  saveProgress();
+  renderSteps();
+  renderContent();
+  updateProgress();
+
+  document.getElementById("prevBtn").disabled = current === 0;
+  document.getElementById("nextBtn").disabled = current === steps.length - 1;
+}
+
+function nextStep(){
+  if(current < steps.length - 1){
+    current++;
+    render();
+  }
+}
+
+function prevStep(){
+  if(current > 0){
+    current--;
+    render();
+  }
+}
+
+function toggleMenu(){
+  document.getElementById("sidebar").classList.toggle("open");
+}
+
+render();
+</script>
+
+</body>
+</html>
