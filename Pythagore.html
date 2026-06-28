@@ -60,7 +60,7 @@ header{
   display:flex;
   flex-wrap:wrap;
   gap:8px;
-  margin-bottom:24px;
+  margin-bottom:20px;
 }
 
 .badge{
@@ -68,6 +68,16 @@ header{
   padding:8px 12px;
   border-radius:999px;
   font-weight:700;
+}
+
+.login-info{
+  background:rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:18px;
+  padding:14px;
+  margin-bottom:18px;
+  font-size:15px;
+  line-height:1.4;
 }
 
 .progress-box{
@@ -138,10 +148,7 @@ header{
   min-height:340px;
 }
 
-.video-placeholder,
-.image-placeholder,
-.fiche-placeholder,
-.quiz-box{
+.placeholder{
   min-height:280px;
   display:flex;
   align-items:center;
@@ -151,6 +158,41 @@ header{
   border-radius:20px;
   font-size:24px;
   line-height:1.5;
+}
+
+.video-frame{
+  width:100%;
+  aspect-ratio:16/9;
+  border:0;
+  border-radius:20px;
+}
+
+.content-image{
+  max-width:100%;
+  border-radius:20px;
+  display:block;
+  margin:auto;
+}
+
+.fiche-link{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px 30px;
+  border-radius:999px;
+  color:white;
+  background:linear-gradient(135deg,#ff4fa3,#3058ff);
+  text-decoration:none;
+  font-weight:900;
+  font-size:20px;
+}
+
+.quiz-box{
+  text-align:left;
+}
+
+.quiz-box h2{
+  margin-bottom:20px;
 }
 
 .quiz-options{
@@ -172,6 +214,7 @@ header{
   display:flex;
   justify-content:space-between;
   margin-top:26px;
+  gap:14px;
 }
 
 .nav-buttons button{
@@ -197,15 +240,7 @@ header{
   text-decoration:none;
   font-weight:700;
 }
-.login-info{
-  background:rgba(255,255,255,.10);
-  border:1px solid rgba(255,255,255,.14);
-  border-radius:18px;
-  padding:14px;
-  margin-bottom:18px;
-  font-size:15px;
-  line-height:1.4;
-}
+
 @media(max-width:800px){
   .menu-btn{display:block}
 
@@ -238,6 +273,14 @@ header{
   .content-card h1{
     font-size:28px;
   }
+
+  .content-box{
+    padding:18px;
+  }
+
+  .nav-buttons{
+    flex-direction:column;
+  }
 }
 </style>
 </head>
@@ -245,25 +288,24 @@ header{
 <body>
 
 <header>
-  <div class="logo">Pythagore · 4e / 3e</div>
+  <div class="logo" id="pageTitle">Pythagore</div>
   <button class="menu-btn" onclick="toggleMenu()">☰</button>
 </header>
 
 <div class="layout">
 
 <aside class="sidebar" id="sidebar">
-  <h2>Pythagore</h2>
+  <h2 id="capsuleTitle">Pythagore</h2>
 
   <div class="badges">
-    <span class="badge">⏱️ 18 min</span>
-    <span class="badge">🎥 18 vidéos</span>
-    <span class="badge">❓ 12 quiz</span>
-    <span class="badge">📄 6 fiches</span>
+    <span class="badge" id="durationBadge">⏱️</span>
+    <span class="badge" id="levelsBadge">Niveaux</span>
+    <span class="badge" id="stepsBadge">Étapes</span>
   </div>
 
   <div class="login-info">
-  🔐 Connecte-toi pour retrouver ta progression plus tard.
-</div>
+    🔐 Connecte-toi pour retrouver ta progression plus tard.
+  </div>
 
   <div class="progress-box">
     <strong>Progression : <span id="progressText">0 %</span></strong>
@@ -292,39 +334,32 @@ header{
 
 </div>
 
-<script>
-const steps = [
-  {type:"video", title:"0. Introduction", content:"Emplacement de ta vidéo d'introduction"},
-  {type:"fiche", title:"Fiche", content:"Emplacement de ta première fiche"},
-  {type:"fiche", title:"Fiche", content:"Emplacement de ta deuxième fiche"},
-  {type:"video", title:"1. Observer avant de calculer", content:"Emplacement vidéo"},
-  {type:"video", title:"2. Mettre des mots sur ce qu’on observe", content:"Emplacement vidéo"},
-  {
-    type:"quiz",
-    title:"QCM",
-    question:"Peut-on utiliser le théorème de Pythagore dans n'importe quel triangle ?",
-    options:["Oui, toujours","Non, seulement dans un triangle rectangle","Seulement dans un triangle isocèle"],
-    answer:1
-  },
-  {type:"video", title:"3. Démonstration visuelle", content:"Emplacement vidéo"},
-  {type:"video", title:"4. L’énoncé du théorème de Pythagore", content:"Emplacement vidéo"},
-  {
-    type:"quiz",
-    title:"Quiz",
-    question:"Dans un triangle rectangle, le plus grand côté s'appelle...",
-    options:["l'hypoténuse","la hauteur","la médiane"],
-    answer:0
-  }
-];
+<script src="pythagore-data.js"></script>
 
+<script>
+const steps = capsuleData.steps;
 let current = 0;
 let completed = JSON.parse(localStorage.getItem("pythagoreProgress") || "[]");
+
+document.getElementById("pageTitle").textContent = capsuleData.title + " · " + capsuleData.levels;
+document.getElementById("capsuleTitle").textContent = capsuleData.title;
+document.getElementById("durationBadge").textContent = "⏱️ " + capsuleData.duration;
+document.getElementById("levelsBadge").textContent = capsuleData.levels;
+document.getElementById("stepsBadge").textContent = steps.length + " étapes";
 
 function saveProgress(){
   if(!completed.includes(current)){
     completed.push(current);
     localStorage.setItem("pythagoreProgress", JSON.stringify(completed));
   }
+}
+
+function getIcon(type){
+  if(type === "video") return "🎥";
+  if(type === "quiz") return "❓";
+  if(type === "fiche") return "📄";
+  if(type === "image") return "🖼️";
+  return "•";
 }
 
 function renderSteps(){
@@ -334,15 +369,14 @@ function renderSteps(){
   steps.forEach((step,index)=>{
     const div = document.createElement("div");
     div.className = "step";
+
     if(index === current) div.classList.add("active");
     if(completed.includes(index)) div.classList.add("done");
-
-    const icon = step.type === "video" ? "🎥" : step.type === "quiz" ? "❓" : step.type === "fiche" ? "📄" : "🖼️";
 
     div.innerHTML = `
       <span class="step-number">${index+1}</span>
       <span>${step.title}</span>
-      <span style="margin-left:auto">${icon}</span>
+      <span style="margin-left:auto">${getIcon(step.type)}</span>
     `;
 
     div.onclick = () => {
@@ -357,24 +391,48 @@ function renderSteps(){
 
 function renderContent(){
   const step = steps[current];
-  document.getElementById("stepTitle").textContent = step.title;
   const box = document.getElementById("contentBox");
 
+  document.getElementById("stepTitle").textContent = step.title;
+
   if(step.type === "video"){
-    box.innerHTML = `<div class="video-placeholder">🎥<br>${step.content}</div>`;
+    if(step.youtube){
+      box.innerHTML = `
+        <iframe class="video-frame"
+          src="https://www.youtube.com/embed/${step.youtube}"
+          allowfullscreen>
+        </iframe>
+      `;
+    } else {
+      box.innerHTML = `<div class="placeholder">🎥<br>Vidéo à ajouter</div>`;
+    }
   }
 
   if(step.type === "fiche"){
-    box.innerHTML = `<div class="fiche-placeholder">📄<br>${step.content}</div>`;
+    if(step.file){
+      box.innerHTML = `
+        <div class="placeholder">
+          <a class="fiche-link" href="${step.file}" target="_blank">
+            📄 Ouvrir la fiche
+          </a>
+        </div>
+      `;
+    } else {
+      box.innerHTML = `<div class="placeholder">📄<br>Fiche à ajouter</div>`;
+    }
   }
 
   if(step.type === "image"){
-    box.innerHTML = `<div class="image-placeholder">🖼️<br>${step.content}</div>`;
+    if(step.image){
+      box.innerHTML = `<img class="content-image" src="${step.image}" alt="${step.title}">`;
+    } else {
+      box.innerHTML = `<div class="placeholder">🖼️<br>Image à ajouter</div>`;
+    }
   }
 
   if(step.type === "quiz"){
     box.innerHTML = `
-      <div class="quiz-box" style="display:block;text-align:left">
+      <div class="quiz-box">
         <h2>${step.question}</h2>
         <div class="quiz-options">
           ${step.options.map((opt,i)=>`<button onclick="checkAnswer(${i})">${opt}</button>`).join("")}
