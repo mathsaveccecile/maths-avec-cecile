@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Admin - Maths avec Cécile</title>
+<style>
+body{margin:0;background:#181225;color:white;font-family:Arial,sans-serif}
+header{padding:25px;font-size:34px;font-weight:900}
+.container{width:900px;margin:auto}
+.card{background:#2a2240;border-radius:25px;padding:30px;margin-top:30px}
+button{border:none;cursor:pointer;border-radius:999px;padding:16px 28px;font-size:18px;font-weight:900;color:white;background:linear-gradient(135deg,#ff4fa3,#3058ff)}
+.element{background:#3b3158;padding:18px;border-radius:18px;margin:12px 0;font-size:20px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;z-index:999}
+.modal-content{background:#111722;width:480px;border-radius:25px;padding:30px}
+.choice{display:block;width:100%;margin:12px 0;background:#2d2540;text-align:left}
+input,select,textarea{width:100%;padding:14px;margin:10px 0;border-radius:12px;border:none;font-size:16px}
+textarea{height:260px}
+.row{display:flex;gap:12px}
+.cancel{background:#555}
+</style>
+</head>
+<body>
+
+<header>Administration des capsules</header>
+
+<div class="container">
+  <div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+  <h2 id="capsuleTitle">Pythagore</h2>
+  <button onclick="newCapsule()">📚 Nouvelle capsule</button>
+</div>
+    <button onclick="openChoice()">➕ Ajouter un élément</button>
+    <a href="Pythagore.html" target="_blank">
+  <button>👁️ Prévisualiser la capsule</button>
+</a>
+<div id="elements"></div>
+    <h3>Code généré à copier dans pythagore-data.js</h3>
+    <textarea id="code"></textarea>
+  </div>
+</div>
+
+<div class="modal" id="choiceModal">
+  <div class="modal-content">
+    <h2>Qu'est-ce qu'on ajoute ?</h2>
+    <button class="choice" onclick="openForm('video')">🎥 Une vidéo</button>
+    <button class="choice" onclick="openForm('quiz')">❓ Un quiz QCM</button>
+    <button class="choice" onclick="openForm('image')">🖼️ Une image</button>
+    <button class="choice" onclick="openForm('pdf')">📄 Un PDF</button>
+    <button class="choice cancel" onclick="closeAll()">Annuler</button>
+  </div>
+</div>
+
+<div class="modal" id="formModal">
+  <div class="modal-content">
+    <h2 id="formTitle"></h2>
+    <div id="formFields"></div>
+    <div class="row">
+      <button class="cancel" onclick="closeAll()">Annuler</button>
+      <button onclick="saveElement()">Ajouter</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let steps = [];
+let currentType = "";
+
+function openChoice(){
+  document.getElementById("choiceModal").style.display = "flex";
+}
+
+function closeAll(){
+  document.getElementById("choiceModal").style.display = "none";
+  document.getElementById("formModal").style.display = "none";
+}
+
+function openForm(type){
+  currentType = type;
+  document.getElementById("choiceModal").style.display = "none";
+  document.getElementById("formModal").style.display = "flex";
+
+  const title = document.getElementById("formTitle");
+  const fields = document.getElementById("formFields");
+
+  if(type==="video"){
+    title.textContent = "Ajouter une vidéo";
+    fields.innerHTML = `
+      <input id="title" placeholder="Titre de la vidéo">
+      <input id="src" placeholder="Lien YouTube embed">
+    `;
+  }
+
+  if(type==="image"){
+    title.textContent = "Ajouter une image";
+    fields.innerHTML = `
+      <input id="title" placeholder="Titre de l'image">
+      <input id="src" placeholder="Exemple : pythagore.png">
+    `;
+  }
+
+  if(type==="pdf"){
+    title.textContent = "Ajouter un PDF";
+    fields.innerHTML = `
+      <input id="title" placeholder="Titre du PDF">
+      <input id="src" placeholder="Exemple : assets/Pythagore/pdfs/fiche1.pdf">
+      <label><input id="loginRequired" type="checkbox" checked> Téléchargement réservé aux élèves connectés</label>
+    `;
+  }
+
+  if(type==="quiz"){
+    title.textContent = "Ajouter un QCM";
+    fields.innerHTML = `
+      <input id="title" placeholder="Titre du quiz">
+      <input id="question" placeholder="Question">
+      <input id="a" placeholder="Réponse A">
+      <input id="b" placeholder="Réponse B">
+      <input id="c" placeholder="Réponse C">
+      <input id="correct" placeholder="Bonne réponse exacte">
+    `;
+  }
+}
+
+function saveElement(){
+  const title = document.getElementById("title").value;
+
+  if(!title){
+    alert("Il faut un titre.");
+    return;
+  }
+
+  if(currentType==="video" || currentType==="image"){
+    steps.push({
+      type: currentType,
+      title: title,
+      src: document.getElementById("src").value
+    });
+  }
+
+  if(currentType==="pdf"){
+    steps.push({
+      type: "pdf",
+      title: title,
+      src: document.getElementById("src").value,
+      loginRequired: document.getElementById("loginRequired").checked
+    });
+  }
+
+  if(currentType==="quiz"){
+    steps.push({
+      type: "quiz",
+      quizType: "qcm",
+      title: title,
+      question: document.getElementById("question").value,
+      answers: [
+        document.getElementById("a").value,
+        document.getElementById("b").value,
+        document.getElementById("c").value
+      ],
+      correctAnswer: document.getElementById("correct").value
+    });
+  }
+
+  closeAll();
+  render();
+}
+
+function icon(type){
+  if(type==="video") return "🎥";
+  if(type==="image") return "🖼️";
+  if(type==="pdf") return "📄";
+  if(type==="quiz") return "❓";
+  return "⭐";
+}
+
+function render(){
+  document.getElementById("elements").innerHTML = steps.map((step,index)=>`
+    <div class="element">
+      <div>${index+1}. ${icon(step.type)} ${step.title}</div>
+      <div style="margin-top:12px;">
+      <button onclick="editStep(${index})">✏️</button>
+        <button onclick="moveUp(${index})">⬆️</button>
+        <button onclick="moveDown(${index})">⬇️</button>
+        <button onclick="deleteStep(${index})">🗑️</button>
+      </div>
+    </div>
+  `).join("");
+
+  document.getElementById("code").value = `const capsuleData = {
+  title: "Pythagore",
+  levels: "4e / 3e",
+  duration: "18 min",
+
+  steps: ${JSON.stringify(steps,null,2)}
+};`;
+}
+function deleteStep(index){
+  if(confirm("Supprimer cet élément ?")){
+    steps.splice(index,1);
+    render();
+  }
+}
+
+function moveUp(index){
+  if(index === 0) return;
+  const temp = steps[index];
+  steps[index] = steps[index - 1];
+  steps[index - 1] = temp;
+  render();
+}
+
+function moveDown(index){
+  if(index === steps.length - 1) return;
+  const temp = steps[index];
+  steps[index] = steps[index + 1];
+  steps[index + 1] = temp;
+  render();
+}
+function editStep(index){
+  const step = steps[index];
+
+  const newTitle = prompt("Nouveau titre :", step.title);
+  if(newTitle === null) return;
+  step.title = newTitle;
+
+  if(step.type === "video" || step.type === "image" || step.type === "pdf"){
+    const newSrc = prompt("Nouveau lien / chemin du fichier :", step.src);
+    if(newSrc !== null) step.src = newSrc;
+  }
+
+  if(step.type === "quiz"){
+    const newQuestion = prompt("Nouvelle question :", step.question);
+    if(newQuestion !== null) step.question = newQuestion;
+
+    const newCorrect = prompt("Bonne réponse :", step.correctAnswer);
+    if(newCorrect !== null) step.correctAnswer = newCorrect;
+  }
+
+  render();
+}
+function newCapsule(){
+
+  const name = prompt("Nom de la nouvelle capsule :");
+
+  if(!name) return;
+
+  document.getElementById("capsuleTitle").textContent = name;
+
+  steps = [];
+
+  render();
+
+}
+</script>
+
+</body>
+</html>
