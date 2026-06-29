@@ -43,13 +43,22 @@ textarea{height:260px}
   <div class="modal-content">
     <h2>Qu'est-ce qu'on ajoute ?</h2>
     <button class="choice" onclick="openForm('video')">🎥 Une vidéo</button>
-    <button class="choice" onclick="openForm('quiz')">❓ Un quiz QCM</button>
+    <button class="choice" onclick="openQuizChoice()">❓ Un quiz</button>
     <button class="choice" onclick="openForm('image')">🖼️ Une image</button>
     <button class="choice" onclick="openForm('pdf')">📄 Un PDF</button>
     <button class="choice cancel" onclick="closeAll()">Annuler</button>
   </div>
 </div>
-
+<div class="modal" id="quizChoiceModal">
+  <div class="modal-content">
+    <h2>Quel type de quiz ?</h2>
+    <button class="choice" onclick="openForm('quiz-qcm')">❓ QCM</button>
+    <button class="choice" onclick="openForm('quiz-vf')">✅ Vrai / Faux</button>
+    <button class="choice" onclick="openForm('quiz-libre')">✍️ Réponse libre</button>
+    <button class="choice" onclick="openForm('quiz-paires')">🔗 Associer des paires</button>
+    <button class="choice cancel" onclick="closeAll()">Annuler</button>
+  </div>
+</div>
 <div class="modal" id="formModal">
   <div class="modal-content">
     <h2 id="formTitle"></h2>
@@ -68,10 +77,14 @@ let currentType = "";
 function openChoice(){
   document.getElementById("choiceModal").style.display = "flex";
 }
-
+function openQuizChoice(){
+  document.getElementById("choiceModal").style.display = "none";
+  document.getElementById("quizChoiceModal").style.display = "flex";
+}
 function closeAll(){
   document.getElementById("choiceModal").style.display = "none";
   document.getElementById("formModal").style.display = "none";
+  document.getElementById("quizChoiceModal").style.display = "none";
 }
 
 function openForm(type){
@@ -107,18 +120,53 @@ function openForm(type){
     `;
   }
 
-  if(type==="quiz"){
-    title.textContent = "Ajouter un QCM";
-    fields.innerHTML = `
-      <input id="title" placeholder="Titre du quiz">
-      <input id="question" placeholder="Question">
-      <input id="a" placeholder="Réponse A">
-      <input id="b" placeholder="Réponse B">
-      <input id="c" placeholder="Réponse C">
-      <input id="correct" placeholder="Bonne réponse exacte">
-    `;
-  }
+ if(type==="quiz-qcm"){
+  title.textContent = "Ajouter un QCM";
+  fields.innerHTML = `
+    <input id="title" placeholder="Titre du quiz">
+    <input id="question" placeholder="Question avec LaTeX possible">
+    <input id="a" placeholder="Réponse A">
+    <input id="b" placeholder="Réponse B">
+    <input id="c" placeholder="Réponse C">
+    <input id="correct" placeholder="Bonne réponse exacte">
+  `;
 }
+
+if(type==="quiz-vf"){
+  title.textContent = "Ajouter un Vrai / Faux";
+  fields.innerHTML = `
+    <input id="title" placeholder="Titre du quiz">
+    <input id="question" placeholder="Affirmation">
+    <select id="correct">
+      <option value="Vrai">Vrai</option>
+      <option value="Faux">Faux</option>
+    </select>
+  `;
+}
+
+if(type==="quiz-libre"){
+  title.textContent = "Ajouter une réponse libre";
+  fields.innerHTML = `
+    <input id="title" placeholder="Titre du quiz">
+    <input id="question" placeholder="Question">
+    <input id="correct" placeholder="Réponse attendue">
+  `;
+}
+
+if(type==="quiz-paires"){
+  title.textContent = "Associer des paires";
+  fields.innerHTML = `
+    <input id="title" placeholder="Titre du quiz">
+    <input id="question" placeholder="Consigne">
+    <input id="pair1a" placeholder="Élément 1 gauche">
+    <input id="pair1b" placeholder="Élément 1 droite">
+    <input id="pair2a" placeholder="Élément 2 gauche">
+    <input id="pair2b" placeholder="Élément 2 droite">
+    <input id="pair3a" placeholder="Élément 3 gauche">
+    <input id="pair3b" placeholder="Élément 3 droite">
+  `;
+}
+  }
 
 function saveElement(){
   const title = document.getElementById("title").value;
@@ -145,20 +193,63 @@ function saveElement(){
     });
   }
 
-  if(currentType==="quiz"){
+  if(currentType==="quiz-qcm"){
     steps.push({
-      type: "quiz",
-      quizType: "qcm",
-      title: title,
-      question: document.getElementById("question").value,
-      answers: [
-        document.getElementById("a").value,
-        document.getElementById("b").value,
-        document.getElementById("c").value
-      ],
-      correctAnswer: document.getElementById("correct").value
+        type:"quiz",
+        quizType:"qcm",
+        title:title,
+        question:document.getElementById("question").value,
+        answers:[
+            document.getElementById("a").value,
+            document.getElementById("b").value,
+            document.getElementById("c").value
+        ],
+        correctAnswer:document.getElementById("correct").value
     });
-  }
+}
+
+if(currentType==="quiz-vf"){
+    steps.push({
+        type:"quiz",
+        quizType:"vraiFaux",
+        title:title,
+        question:document.getElementById("question").value,
+        correctAnswer:document.getElementById("correct").value
+    });
+}
+
+if(currentType==="quiz-libre"){
+    steps.push({
+        type:"quiz",
+        quizType:"reponseLibre",
+        title:title,
+        question:document.getElementById("question").value,
+        correctAnswer:document.getElementById("correct").value
+    });
+}
+
+if(currentType==="quiz-paires"){
+    steps.push({
+        type:"quiz",
+        quizType:"paires",
+        title:title,
+        question:document.getElementById("question").value,
+        pairs:[
+            [
+                document.getElementById("pair1a").value,
+                document.getElementById("pair1b").value
+            ],
+            [
+                document.getElementById("pair2a").value,
+                document.getElementById("pair2b").value
+            ],
+            [
+                document.getElementById("pair3a").value,
+                document.getElementById("pair3b").value
+            ]
+        ]
+    });
+}
 
   closeAll();
   render();

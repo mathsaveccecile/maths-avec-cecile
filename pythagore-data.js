@@ -17,23 +17,23 @@ const capsuleData = {
     },
 
     {
-    type:"pdf",
-    title:"Fiche méthode",
-    src:"assets/Pythagore/pdfs/fiche1.pdf",
-    loginRequired:true
-},
+      type: "pdf",
+      title: "Fiche méthode",
+      src: "assets/Pythagore/pdfs/fiche1.pdf",
+      loginRequired: true
+    },
 
     {
       type: "quiz",
       quizType: "qcm",
       title: "QCM",
-      question: "Peut-on utiliser Pythagore dans n'importe quel triangle ?",
+      question: "Quelle est la valeur de $\\sqrt{81}$ ? Et comment écrit-on l'angle $\\widehat{ABC}$ ?",
       answers: [
-        "Oui, toujours",
-        "Non, seulement dans un triangle rectangle",
-        "Seulement dans un triangle isocèle"
+        "$9$ et $\\widehat{ABC}$",
+        "$8$ et $ABC$",
+        "$81$ et $\\angle ABC$"
       ],
-      correctAnswer: "Non, seulement dans un triangle rectangle"
+      correctAnswer: "$9$ et $\\widehat{ABC}$"
     }
   ]
 };

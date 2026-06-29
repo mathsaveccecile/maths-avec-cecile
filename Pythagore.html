@@ -3,6 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <title>Pythagore - Maths avec Cécile</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  }
+};
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <link rel="stylesheet" href="">
 <style>
 body{margin:0;background:#120d22;color:white;font-family:Arial,sans-serif}
@@ -130,6 +139,7 @@ function renderContent(){
 }
 
   if(step.type==="quiz"){
+  if(step.quizType==="qcm"){
     content.innerHTML = `
       <div class="quiz">
         <h2>${step.question}</h2>
@@ -138,27 +148,80 @@ function renderContent(){
       </div>
     `;
   }
-}
 
+  if(step.quizType==="vraiFaux"){
+    content.innerHTML = `
+      <div class="quiz">
+        <h2>${step.question}</h2>
+        <button onclick="checkAnswer('Vrai')">Vrai</button>
+        <button onclick="checkAnswer('Faux')">Faux</button>
+        <p id="feedback"></p>
+      </div>
+    `;
+  }
+
+  if(step.quizType==="reponseLibre"){
+    content.innerHTML = `
+      <div class="quiz">
+        <h2>${step.question}</h2>
+        <input id="freeAnswer" placeholder="Ta réponse">
+        <button onclick="checkFreeAnswer()">Valider</button>
+        <p id="feedback"></p>
+      </div>
+    `;
+  }
+
+  if(step.quizType==="paires"){
+    content.innerHTML = `
+      <div class="quiz">
+        <h2>${step.question}</h2>
+        ${step.pairs.map(pair=>`<p><strong>${pair[0]}</strong> → ${pair[1]}</p>`).join("")}
+        <p>🔗 Version interactive à améliorer ensuite.</p>
+      </div>
+    `;
+  }
+}
+}
+  
 function checkAnswer(answer){
   const step = capsuleData.steps[currentStep];
   document.getElementById("feedback").textContent =
     answer === step.correctAnswer ? "✅ Bonne réponse !" : "❌ Essaie encore.";
 }
 
+function checkFreeAnswer(){
+  const step = capsuleData.steps[currentStep];
+  const answer = document.getElementById("freeAnswer").value.trim().toLowerCase();
+  const correct = step.correctAnswer.trim().toLowerCase();
+
+  document.getElementById("feedback").textContent =
+    answer === correct ? "✅ Bonne réponse !" : "❌ Essaie encore.";
+}
+
 function render(){
   renderSteps();
   renderContent();
+
+  if(window.MathJax){
+    MathJax.typesetPromise();
+  }
+
   document.getElementById("progress").textContent =
     "Progression : " + Math.round(((currentStep+1)/capsuleData.steps.length)*100) + " %";
 }
 
 function nextStep(){
-  if(currentStep < capsuleData.steps.length-1){currentStep++; render();}
+  if(currentStep < capsuleData.steps.length-1){
+    currentStep++;
+    render();
+  }
 }
 
 function previousStep(){
-  if(currentStep > 0){currentStep--; render();}
+  if(currentStep > 0){
+    currentStep--;
+    render();
+  }
 }
 
 document.getElementById("title").textContent = capsuleData.title;
