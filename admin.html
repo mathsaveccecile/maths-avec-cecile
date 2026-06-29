@@ -35,7 +35,17 @@ textarea{height:260px}
 </a>
 <div id="elements"></div>
     <h3>Code généré à copier dans pythagore-data.js</h3>
-    <textarea id="code"></textarea>
+    <div style="display:flex;gap:10px;margin-bottom:10px;">
+    <button onclick="copyCode()">📋 Copier le code</button>
+    <button onclick="downloadCode()">💾 Télécharger le fichier</button>
+</div>
+
+<div style="display:flex;gap:10px;margin-bottom:10px;">
+  <button onclick="copyCode()">📋 Copier le code</button>
+  <button onclick="downloadCode()">💾 Télécharger le fichier</button>
+</div>
+
+<textarea id="code"></textarea>
   </div>
 </div>
 
@@ -73,6 +83,7 @@ textarea{height:260px}
 <script>
 let steps = [];
 let currentType = "";
+let capsuleName = "Pythagore";
 
 function openChoice(){
   document.getElementById("choiceModal").style.display = "flex";
@@ -107,7 +118,8 @@ function openForm(type){
     title.textContent = "Ajouter une image";
     fields.innerHTML = `
       <input id="title" placeholder="Titre de l'image">
-      <input id="src" placeholder="Exemple : pythagore.png">
+      <input id="src" placeholder="Chemin de l'image">
+<input id="imageFile" type="file" accept="image/*" onchange="fillImagePath()">
     `;
   }
 
@@ -277,7 +289,7 @@ function render(){
   `).join("");
 
   document.getElementById("code").value = `const capsuleData = {
-  title: "Pythagore",
+  title: "${capsuleName}",
   levels: "4e / 3e",
   duration: "18 min",
 
@@ -334,12 +346,50 @@ function newCapsule(){
 
   if(!name) return;
 
-  document.getElementById("capsuleTitle").textContent = name;
+  capsuleName = name;
+
+  document.getElementById("capsuleTitle").textContent = capsuleName;
 
   steps = [];
 
   render();
 
+}
+function copyCode(){
+
+    const textarea = document.getElementById("code");
+
+    textarea.select();
+    textarea.setSelectionRange(0,999999);
+
+    navigator.clipboard.writeText(textarea.value);
+
+    alert("✅ Le code a été copié !");
+}
+
+function downloadCode(){
+
+    const contenu = document.getElementById("code").value;
+
+    const blob = new Blob([contenu],{
+        type:"text/javascript"
+    });
+
+    const lien = document.createElement("a");
+
+    lien.href = URL.createObjectURL(blob);
+
+    lien.download = "pythagore-data.js";
+
+    lien.click();
+
+}
+function fillImagePath(){
+  const file = document.getElementById("imageFile").files[0];
+  if(!file) return;
+
+  document.getElementById("src").value =
+    "assets/Pythagore/images/" + file.name;
 }
 </script>
 
