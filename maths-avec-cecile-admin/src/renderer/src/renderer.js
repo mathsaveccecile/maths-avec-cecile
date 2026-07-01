@@ -176,7 +176,7 @@ document.getElementById("previewCapsuleBtn").addEventListener("click", () => {
   alert("Prévisualisation à faire après. Pour l’instant, l’éditeur est stable.");
 });
 
-document.getElementById("exportSiteBtn").addEventListener("click", () => {
+document.getElementById("exportSiteBtn").addEventListener("click", async () => {
   capsule.title = document.getElementById("capsuleTitle").value;
   capsule.level = document.getElementById("capsuleLevel").value;
   capsule.duration = document.getElementById("capsuleDuration").value;
@@ -231,14 +231,9 @@ document.getElementById("exportSiteBtn").addEventListener("click", () => {
     })
   };
 
-  const jsContent =
-    "const capsuleData = " +
-    JSON.stringify(siteData, null, 2) +
-    ";";
+  await window.api.exportSite(siteData);
 
-  download("pythagore-data.js", jsContent);
-
-  alert("✅ Fichier pythagore-data.js exporté !");
+alert("✅ Capsule exportée directement sur le site !");
 });
 
 function download(filename, text) {

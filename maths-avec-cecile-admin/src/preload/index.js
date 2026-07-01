@@ -6,7 +6,8 @@ const api = {
   chooseImage: () => ipcRenderer.invoke('choose-image'),
   chooseVideo: () => ipcRenderer.invoke('choose-video'),
   choosePdf: () => ipcRenderer.invoke('choose-pdf'),
-  openCapsule: () => ipcRenderer.invoke('open-capsule')
+  openCapsule: () => ipcRenderer.invoke('open-capsule'),
+  exportSite: (data) => ipcRenderer.invoke('export-site', data)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to
