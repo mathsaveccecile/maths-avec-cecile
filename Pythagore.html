@@ -34,12 +34,61 @@ header{background:#211933;padding:22px;font-size:28px;font-weight:900}
 button,.pdf-btn{border:none;border-radius:999px;padding:18px 35px;font-size:20px;font-weight:900;color:white;background:linear-gradient(135deg,#ff4fa3,#3058ff);cursor:pointer;text-decoration:none}
 .locked{background:#555;cursor:not-allowed}
 .quiz button{display:block;margin:12px auto;background:#46395f;width:80%}
+#menuMobileBtn{
+  display:none;
+  float:right;
+  font-size:26px;
+  padding:8px 16px;
+}
+
+@media (max-width: 800px){
+  header{
+    position:sticky;
+    top:0;
+    z-index:1000;
+  }
+
+  #menuMobileBtn{
+    display:block;
+  }
+
+  .page{
+    display:block;
+  }
+
+  .sidebar{
+    display:none;
+    position:fixed;
+    top:70px;
+    right:10px;
+    left:10px;
+    z-index:999;
+    border-radius:20px;
+    max-height:80vh;
+    overflow:auto;
+  }
+
+  .sidebar.open{
+    display:block;
+  }
+
+  .main{
+    padding:20px;
+  }
+
+  .card{
+    padding:20px;
+  }
+}
 </style>
 </head>
 
 <body>
 
-<header id="topTitle">Pythagore - 4e / 3e</header>
+<header>
+  <span id="topTitle">Pythagore - 4e / 3e</span>
+  <button id="menuMobileBtn" onclick="toggleMenu()">☰</button>
+</header>
 
 <div class="page">
   <aside class="sidebar">
@@ -276,6 +325,9 @@ function previousStep(){
   }
 }
 
+function toggleMenu(){
+  document.querySelector(".sidebar").classList.toggle("open");
+}
 document.getElementById("title").textContent = capsuleData.title;
 document.getElementById("topTitle").textContent = capsuleData.title + " - " + capsuleData.levels;
 updateStats();
